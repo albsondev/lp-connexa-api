@@ -6,16 +6,80 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>CONNEXA API - Automatize e Conquiste!</title>
     <link rel="stylesheet" href="/css/tailwind.min.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Adicionando jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
 
     <style>
+        body {
+          overflow-x: hidden;
+        }
+
         .gradient {
             background: linear-gradient(90deg, #daae51 0%, #057989 100%);
         }
-
         .item {
             width: 100%;
         }
+
+        /* The container must be positioned relative: */
+.custom-select {
+  position: relative;
+  font-family: Arial;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element: */
+}
+
+.select-selected {
+  background-color: DodgerBlue;
+}
+
+/* Style the arrow inside the select element: */
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/* Point the arrow upwards when the select box is open (active): */
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/* style the items (options), including the selected item: */
+.select-items div,.select-selected {
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+}
+
+/* Style items (options): */
+.select-items {
+  position: absolute;
+  background-color: DodgerBlue;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/* Hide the items when the select box is closed: */
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
     </style>
 </head>
 <body class="leading-normal tracking-normal text-white gradient" style="font-family: 'Source Sans Pro', sans-serif;">
@@ -28,8 +92,8 @@
                 </a>
             </div>
             <div class="block lg:hidden pr-4">
-                <button id="nav-toggle" class="flex items-center p-1 text-green-800 hover:text-gray-900 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                    <svg class="fill-current h-6 w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <button id="nav-toggle" class="flex items-center p-1 text-green-800 hover:text-gray-900 focus:outline-none">
+                    <svg class="fill-current h-6 w-6" viewBox="0 0 20 20">
                         <title>Menu</title>
                         <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
                     </svg>
@@ -38,71 +102,66 @@
             <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden mt-2 lg:mt-0 bg-white lg:bg-transparent text-black p-4 lg:p-0 z-20" id="nav-content">
                 <ul class="list-reset lg:flex justify-end flex-1 items-center">
                     <li class="mr-3">
-                        <a class="inline-block py-2 px-4 text-black font-bold no-underline" href="#">Início</a>
+                        <a class="inline-block py-2 px-4 text-black font-bold no-underline" href="#" data-key="home">Início</a>
                     </li>
                     <li class="mr-3">
-                        <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#about">Sobre</a>
+                        <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#about" data-key="about">Sobre</a>
                     </li>
                     <li class="mr-3">
-                        <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#how-it-works">Como usar?</a>
+                        <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#how-it-works" data-key="howItWorks">Como usar?</a>
                     </li>
                     <li class="mr-3">
-                        <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#plans">Planos</a>
+                        <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#plans" data-key="plans">Planos</a>
+                    </li>
+                    <li class="mr-3">
+                        <button id="navAction" class="mx-auto lg:mx-0 hover:underline bg-white bg-opacity-50 text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none">
+                            <a href="https://connexa-api-front.vercel.app/login" target="_blank" data-key="login">Login</a>
+                        </button>
+                    </li>
+                    <li class="mr-3">
+                        <select id="languageSelector" class="bg-white text-black rounded-md p-2" style="background: #ffffff7d;">
+                          <option value="pt">PT</option>
+                          <option value="en">EN</option>
+                          <option value="ja">JA</option>
+                          <option value="es">ES</option>
+                        </select>
                     </li>
                 </ul>
-                <button id="navAction" class="mx-auto lg:mx-0 hover:underline bg-white bg-opacity-50 text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                    <a href="https://connexa-api-front.vercel.app/login" target="_blank">Login</a>
-                </button>
             </div>
         </div>
         <hr class="border-b border-gray-100 opacity-25 my-0 py-0" />
     </nav>
-    <!--Hero-->
+    <!--Hero Section-->
     <div class="pt-24">
         <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-            <!--Left Col-->
             <div class="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
-                <p class="uppercase tracking-loose w-full">Automatize e Conquiste! 🚀</p>
-                <h1 class="my-4 text-5xl font-bold leading-tight">
+                <p class="uppercase tracking-loose w-full" data-key="automate">Automatize e Conquiste! 🚀</p>
+                <h1 class="my-4 text-5xl font-bold leading-tight" data-key="integration">
                     Integre WhatsApp e acelere resultados!
                 </h1>
-                <p class="leading-normal text-2xl mb-8">
+                <p class="leading-normal text-2xl mb-8" data-key="description">
                     Nossa API de integração com o WhatsApp é a solução ideal para transformar sua plataforma em um canal de comunicação ágil e poderoso. Experimente agora!
                 </p>
                 <button class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                    <a href="https://connexa-api-front.vercel.app/login" target="_blank">Faça o teste grátis</a>
+                    <a href="https://connexa-api-front.vercel.app/login" target="_blank" data-key="freeTrial">Faça o teste grátis</a>
                 </button>
             </div>
-            <!--Right Col-->
             <div class="w-full md:w-3/5 py-6 text-center">
                 <img class="w-full md:w-4/5 z-50" src="/images/home.webp" alt="connexa-api ilustration" />
             </div>
         </div>
     </div>
-    <div class="relative -mt-12 lg:-mt-24">
-        <svg viewBox="0 0 1428 174" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                <g transform="translate(-2.000000, 44.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                    <path d="M0,0 C90.7283404,0.927527913 147.912752,27.187927 291.910178,59.9119003 C387.908462,81.7278826 543.605069,89.334785 759,82.7326078 C469.336065,156.254352 216.336065,153.6679 0,74.9732496" opacity="0.100000001"></path>
-                    <path d="M100,104.708498 C277.413333,72.2345949 426.147877,52.5246657 546.203633,45.5787101 C666.259389,38.6327546 810.524845,41.7979068 979,55.0741668 C931.069965,56.122511 810.303266,74.8455141 616.699903,111.243176 C423.096539,147.640838 250.863238,145.462612 100,104.708498 Z" opacity="0.100000001"></path>
-                    <path d="M1046,51.6521276 C1130.83045,29.328812 1279.08318,17.607883 1439,40.1656806 L1439,120 C1271.17211,77.9435312 1140.17211,55.1609071 1046,51.6521276 Z" id="Path-4" opacity="0.200000003"></path>
-                </g>
-                <g transform="translate(-4.000000, 76.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                    <path d="M0.457,34.035 C57.086,53.198 98.208,65.809 123.822,71.865 C181.454,85.495 234.295,90.29 272.033,93.459 C311.355,96.759 396.635,95.801 461.025,91.663 C486.76,90.01 518.727,86.372 556.926,80.752 C595.747,74.596 622.372,70.008 636.799,66.991 C663.913,61.324 712.501,49.503 727.605,46.128 C780.47,34.317 818.839,22.532 856.324,15.904 C922.689,4.169 955.676,2.522 1011.185,0.432 C1060.705,1.477 1097.39,3.129 1121.236,5.387 C1161.703,9.219 1208.621,17.821 1235.4,22.304 C1285.855,30.748 1354.351,47.432 1440.886,72.354 L1441.191,104.352 L1.121,104.031 L0.457,34.035 Z"></path>
-                </g>
-            </g>
-        </svg>
-    </div>
-    <section class="bg-white border-b py-8" id="how-it-works">
+    
+    <section id="how-it-works" class="bg-white border-b py-8">
         <div class="container max-w-5xl mx-auto m-8">
-            <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">Primeiros passos</h2>
+            <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800" data-key="firstSteps">Primeiros passos</h2>
             <div class="w-full mb-4">
                 <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
             </div>
             <div class="flex flex-wrap">
                 <div class="w-5/6 sm:w-1/2 p-6">
-                    <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">Crie uma conta</h3>
-                    <p class="text-gray-600 mb-8">
+                    <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3" data-key="createAccount">Crie uma conta</h3>
+                    <p class="text-gray-600 mb-8" data-key="createAccountDescription">
                         Crie uma conta e adicione instâncias para começar a enviar mensagens via API CONNEXA.
                         <br />
                         <br />
@@ -118,18 +177,18 @@
                 </div>
                 <div class="w-full sm:w-1/2 p-6 mt-6">
                     <div class="align-middle">
-                        <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">Digitalize o QR Code</h3>
-                        <p class="text-gray-600 mb-8">Cadastre seu dispositivo para gerar o token e configurações necessárias para sua instância.
+                        <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3" data-key="scanQRCode">Digitalize o QR Code</h3>
+                        <p class="text-gray-600 mb-8" data-key="scanQRCodeDescription">Cadastre seu dispositivo para gerar o token e configurações necessárias para sua instância.
                             <br />
                             <br />
                         </p>
                     </div>
                 </div>
-            </div>
+</div>
             <div class="flex flex-wrap">
                 <div class="w-5/6 sm:w-1/2 p-6">
-                    <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">Comece a enviar mensagens</h3>
-                    <p class="text-gray-600 mb-8">
+                    <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3" data-key="startSendingMessages">Comece a enviar mensagens</h3>
+                    <p class="text-gray-600 mb-8" data-key="startSendingMessagesDescription">
                         E agora, com tudo integrado e configurado do seu jeito, é só começar a enviar mensagens via API CONNEXA.
                         <br />
                         <br />
@@ -143,78 +202,71 @@
     </section>
 
     <section class="bg-gray-900 text-white py-12 px-6 flex flex-col md:flex-row items-center justify-center" id="about">
-        <!-- Imagem à esquerda -->
         <div class="w-full md:w-1/2 flex justify-center">
             <img src="/images/img-ballons-whats.png" alt="Ilustração API WhatsApp" class="max-w-full h-auto" />
         </div>
-
-        <!-- Texto à direita -->
         <div class="w-full md:w-1/2 mt-8 md:mt-0 md:pl-12">
-            <h2 class="text-green-400 text-lg font-semibold">E aí, afinal</h2>
-            <h1 class="text-3xl font-bold mt-2">o que é essa tal de CONNEXA API?</h1>
-            <p class="text-gray-300 mt-4 leading-relaxed">
+            <h2 class="text-green-400 text-lg font-semibold" data-key="so">E aí, afinal</h2>
+            <h1 class="text-3xl font-bold mt-2" data-key="whatIs">o que é essa tal de CONNEXA API?</h1>
+            <p class="text-gray-300 mt-4 leading-relaxed" data-key="whatIsDescription">
                 A <strong>CONNEXA API</strong> é como um superpoder para o WhatsApp! Com ela, você pode integrar
                 o WhatsApp da maneira que quiser. Dá para criar bots de atendimento,
                 agendar mensagens, enviar notificações e muito mais.
             </p>
-            <p class="text-gray-300 mt-4 leading-relaxed">
+            <p class="text-gray-300 mt-4 leading-relaxed" data-key="additionalFeatures">
                 Além disso, você pode enviar e receber mensagens, fotos, vídeos, áudios, documentos
                 e até gerenciar grupos. Tudo isso de forma prática e automatizada com o auxílio de webhooks.
             </p>
-            <p class="text-gray-300 mt-4 font-semibold">
+            <p class="text-gray-300 mt-4 font-semibold" data-key="letUsMake">
                 Bora facilitar a vida e turbinar as interações no WhatsApp com a CONNEXA API! 🚀
             </p>
             <button class="mt-6 bg-green-500 hover:bg-green-600 text-gray-900 font-bold py-3 px-6 rounded-lg transition">
-                Gostei, quero testar! 😊
+                <span data-key="testNow">Gostei, quero testar! 😊</span>
             </button>
         </div>
     </section>
 
     <section class="bg-green-700 text-white py-12 px-6">
         <div class="max-w-5xl mx-auto text-center">
-            <h2 class="text-3xl font-bold">Como usar o CONNEXA API?</h2>
-            <p class="text-gray-300 mt-4">
+            <h2 class="text-3xl font-bold" data-key="howToUse">Como usar o CONNEXA API?</h2>
+            <p class="text-gray-300 mt-4" data-key="possibilities">
                 Com a <strong>CONNEXA API</strong>, você tem um mundo de possibilidades: criação de bots,
                 agendamento de consultas, notificações no WhatsApp e muito mais. A integração é só o começo! 🚀
             </p>
         </div>
 
         <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            <!-- Card 1 -->
             <div class="bg-gray-800 p-6 rounded-lg text-center">
                 <div class="text-green-400 text-4xl mb-4">📜</div>
-                <h3 class="text-green-400 text-lg font-semibold">Cadastre-se</h3>
-                <p class="text-gray-300 mt-2">
+                <h3 class="text-green-400 text-lg font-semibold" data-key="register">Cadastre-se</h3>
+                <p class="text-gray-300 mt-2" data-key="registerDescription">
                     Oferecemos um teste gratuito de 5 dias para experimentar e validar suas automações.
                     Aproveite esse período para ajustar tudo às suas necessidades.
                 </p>
             </div>
 
-            <!-- Card 2 -->
             <div class="bg-gray-800 p-6 rounded-lg text-center">
                 <div class="text-green-400 text-4xl mb-4">🔗</div>
-                <h3 class="text-green-400 text-lg font-semibold">Conecte seu WhatsApp na API</h3>
-                <p class="text-gray-300 mt-2">
+                <h3 class="text-green-400 text-lg font-semibold" data-key="connectWhatsApp">Conecte seu WhatsApp na API</h3>
+                <p class="text-gray-300 mt-2" data-key="connectDescription">
                     Acesse o painel com seu login, conecte seu WhatsApp escaneando o QR code ou
                     utilizando o número de telefone.
                 </p>
             </div>
 
-            <!-- Card 3 -->
             <div class="bg-gray-800 p-6 rounded-lg text-center">
                 <div class="text-green-400 text-4xl mb-4">📖</div>
-                <h3 class="text-green-400 text-lg font-semibold">Consulte a documentação</h3>
-                <p class="text-gray-300 mt-2">
+                <h3 class="text-green-400 text-lg font-semibold" data-key="documentation">Consulte a documentação</h3>
+                <p class="text-gray-300 mt-2" data-key="documentationDescription">
                     Confira a documentação para aprender a configurar e utilizar todas as
                     funcionalidades do CONNEXA API.
                 </p>
             </div>
 
-            <!-- Card 4 -->
             <div class="bg-gray-800 p-6 rounded-lg text-center">
                 <div class="text-green-400 text-4xl mb-4">🚀</div>
-                <h3 class="text-green-400 text-lg font-semibold">Feito! Agora é só programar!</h3>
-                <p class="text-gray-300 mt-2">
+                <h3 class="text-green-400 text-lg font-semibold" data-key="done">Feito! Agora é só programar!</h3>
+                <p class="text-gray-300 mt-2" data-key="doneDescription">
                     Agora é mãos à obra! Após essas etapas, você pode criar um sistema de cobrança,
                     automações e muito mais.
                 </p>
@@ -224,62 +276,62 @@
 
     <section id="plans" class="bg-gray-100 py-8">
         <div class="container mx-auto px-2 pt-4 pb-12 text-gray-800">
-            <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">Planos</h2>
+            <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800" data-key="plansTitle">Planos</h2>
             <div class="w-full mb-4">
                 <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
             </div>
             <div class="flex flex-col sm:flex-row justify-center pt-12 my-12 sm:my-4">
                 <div class="flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded-none lg:rounded-l-lg bg-white mt-4">
                     <div class="flex-1 bg-white text-gray-600 rounded-t rounded-b-none overflow-hidden shadow">
-                        <div class="p-8 text-3xl font-bold text-center border-b-4">Período de Teste</div>
+                        <div class="p-8 text-3xl font-bold text-center border-b-4" data-key="trialPeriod">Período de Teste</div>
                         <ul class="w-full text-center text-sm">
-                            <li class="border-b py-4">Mensagens ilimitadas</li>
-                            <li class="border-b py-4">Até 1 dispositivo</li>
-                            <li class="border-b py-4">Alta Disponibilidade</li>
+                            <li class="border-b py-4" data-key="unlimitedMessages">Mensagens ilimitadas</li>
+                            <li class="border-b py-4" data-key="upTo1Device">Até 1 dispositivo</li>
+                            <li class="border-b py-4" data-key="highAvailability">Alta Disponibilidade</li>
                         </ul>
                     </div>
                     <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                        <div class="w-full pt-6 text-3xl text-gray-600 font-bold text-center">Grátis<span class="text-base">/ por 5 dias</span></div>
+                        <div class="w-full pt-6 text-3xl text-gray-600 font-bold text-center"><span data-key="free">Grátis</span><span class="text-base">/ <span data-key="per">por</span> 5 <span data-key="days">dias</span></span></div>
                         <div class="flex items-center justify-center">
-                            <a href="https://connexa-api-front.vercel.app/login" target="_blank" class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">Escolher</a>
+                            <a href="https://connexa-api-front.vercel.app/login" target="_blank" class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out" data-key="choice">Escolher</a>
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col w-5/6 lg:w-1/3 mx-auto lg:mx-0 rounded-lg bg-white mt-4 sm:-mt-6 shadow-lg z-10">
                     <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                        <div class="w-full p-8 text-3xl font-bold text-center">Básico</div>
+                        <div class="w-full p-8 text-3xl font-bold text-center" data-key="basic">Básico</div>
                         <div class="h-1 w-full gradient my-0 py-0 rounded-t"></div>
                         <ul class="w-full text-center text-base font-bold">
-                            <li class="border-b py-4">Mensagens ilimitadas</li>
-                            <li class="border-b py-4">Webhooks de notificação</li>
-                            <li class="border-b py-4">Alta Disponibilidade</li>
-                            <li class="border-b py-4">Até 3 dispositivos</li>
-                            <li class="border-b py-4">Envio de arquivos</li>
+                            <li class="border-b py-4" data-key="unlimitedMessages">Mensagens ilimitadas</li>
+                            <li class="border-b py-4" data-key="webhooks">Webhooks de notificação</li>
+                            <li class="border-b py-4" data-key="highAvailability">Alta Disponibilidade</li>
+                            <li class="border-b py-4" data-key="upTo3Devices">Até 3 dispositivos</li>
+                            <li class="border-b py-4" data-key="files">Envio de arquivos</li>
                         </ul>
                     </div>
                     <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                        <div class="w-full pt-6 text-4xl font-bold text-center">R$ 49,00<span class="text-base">/ por instância</span></div>
+                        <div class="w-full pt-6 text-4xl font-bold text-center">R$ 49,00<span class="text-base">/ <span data-key="perInstance">por instância</span></span></div>
                         <div class="flex items-center justify-center">
-                            <a href="https://connexa-api-front.vercel.app/login" target="_blank" class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">Escolher</a>
+                            <a href="https://connexa-api-front.vercel.app/login" target="_blank" class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out" data-key="choice">Escolher</a>
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded-none lg:rounded-l-lg bg-white mt-4">
                     <div class="flex-1 bg-white text-gray-600 rounded-t rounded-b-none overflow-hidden shadow">
-                        <div class="p-8 text-3xl font-bold text-center border-b-4">Pro</div>
+                        <div class="p-8 text-3xl font-bold text-center" data-key="pro">Pro</div>
                         <ul class="w-full text-center text-sm">
-                            <li class="border-b py-4">Mensagens ilimitadas</li>
-                            <li class="border-b py-4">Webhooks de notificação</li>
-                            <li class="border-b py-4">Alta Disponibilidade</li>
-                            <li class="border-b py-4">Envio de arquivos</li>
-                            <li class="border-b py-4">Até 5 dispositivos</li>
-                            <li class="border-b py-4">Suporte</li>
+                            <li class="border-b py-4" data-key="unlimitedMessages">Mensagens ilimitadas</li>
+                            <li class="border-b py-4" data-key="webhooks">Webhooks de notificação</li>
+                            <li class="border-b py-4" data-key="highAvailability">Alta Disponibilidade</li>
+                            <li class="border-b py-4" data-key="files">Envio de arquivos</li>
+                            <li class="border-b py-4" data-key="upTo5Devices">Até 5 dispositivos</li>
+                            <li class="border-b py-4" data-key="support">Suporte</li>
                         </ul>
                     </div>
                     <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                        <div class="w-full pt-6 text-3xl text-gray-600 font-bold text-center">R$ 99,00<span class="text-base">/ por instância</span></div>
+                        <div class="w-full pt-6 text-3xl text-gray-600 font-bold text-center">R$ 99,00<span class="text-base">/ <span data-key="perInstance">por instância</span></span></div>
                         <div class="flex items-center justify-center">
-                            <a href="https://connexa-api-front.vercel.app/login" target="_blank" class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">Escolher</a>
+                            <a href="https://connexa-api-front.vercel.app/login" target="_blank" class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out" data-key="choice">Escolher</a>
                         </div>
                     </div>
                 </div>
@@ -287,159 +339,44 @@
         </div>
     </section>
 
-    <svg class="wave-top" viewBox="0 0 1439 147" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-            <g transform="translate(-1.000000, -14.000000)" fill-rule="nonzero">
-                <g class="wave" fill="#f8fafc">
-                    <path d="M1440,84 C1383.555,64.3 1342.555,51.3 1317,45 C1259.5,30.824 1206.707,25.526 1169,22 C1129.711,18.326 1044.426,18.475 980,22 C954.25,23.409 922.25,26.742 884,32 C845.122,37.787 818.455,42.121 804,45 C776.833,50.41 728.136,61.77 713,65 C660.023,76.309 621.544,87.729 584,94 C517.525,105.104 484.525,106.438 429,108 C379.49,106.484 342.823,104.484 319,102 C278.571,97.783 231.737,88.736 205,84 C154.629,75.076 86.296,57.743 0,32 L0,0 L1440,0 L1440,84 Z"></path>
-                </g>
-                <g transform="translate(1.000000, 15.000000)" fill="#FFFFFF">
-                    <g transform="translate(719.500000, 68.500000) rotate(-180.000000) translate(-719.500000, -68.500000)">
-                        <path d="M0,0 C90.7283404,0.927527913 147.912752,27.187927 291.910178,59.9119003 C387.908462,81.7278826 543.605069,89.334785 759,82.7326078 C469.336065,156.254352 216.336065,153.6679 0,74.9732496" opacity="0.100000001"></path>
-                        <path d="M100,104.708498 C277.413333,72.2345949 426.147877,52.5246657 546.203633,45.5787101 C666.259389,38.6327546 810.524845,41.7979068 979,55.0741668 C931.069965,56.122511 810.303266,74.8455141 616.699903,111.243176 C423.096539,147.640838 250.863238,145.462612 100,104.708498 Z" opacity="0.100000001"></path>
-                        <path d="M1046,51.6521276 C1130.83045,29.328812 1279.08318,17.607883 1439,40.1656806 L1439,120 C1271.17211,77.9435312 1140.17211,55.1609071 1046,51.6521276 Z" opacity="0.200000003"></path>
-                    </g>
-                </g>
-            </g>
-        </g>
-    </svg>
-
-    <section class="container mx-auto text-center py-6 mb-12">
-        <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-white">Transforme Seu Atendimento no WhatsApp <br>com CONNEXA API!</h2>
-        <div class="w-full mb-4">
-            <div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
-        </div>
-        <h3 class="my-4 text-3xl leading-tight">Integre, escale e otimize seu atendimento com bots e mensagens automáticas. Teste grátis por 5 dias!</h3>
-        <button class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-            <a href="https://connexa-api-front.vercel.app/" target="_blank">Quero testar!</a>
-        </button>
-    </section>
-
-    <!--Footer-->
     <footer class="bg-gray-900 text-white py-10 px-6">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Links do site -->
             <div>
                 <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-green-400">O que estão fazendo</a></li>
-                    <li><a href="#" class="hover:text-green-400">Preços</a></li>
-                    <li><a href="#" class="hover:text-green-400">Fale conosco</a></li>
+                    <li><a href="#" class="hover:text-green-400" data-key="whatAreTheyDoing">O que estão fazendo</a></li>
+                    <li><a href="#" class="hover:text-green-400" data-key="pricing">Preços</a></li>
+                    <li><a href="#" class="hover:text-green-400" data-key="contactUs">Fale conosco</a></li>
                 </ul>
             </div>
             <div>
                 <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-green-400">Sobre</a></li>
-                    <li><a href="https://connexa-api-front.vercel.app/" class="hover:text-green-400">Login</a></li>
-                    <li><a href="#" class="hover:text-green-400">Política de privacidade</a></li>
+                    <li><a href="#" class="hover:text-green-400" data-key="about">Sobre</a></li>
+                    <li><a href="https://connexa-api-front.vercel.app/" class="hover:text-green-400" data-key="login">Login</a></li>
+                    <li><a href="#" class="hover:text-green-400" data-key="privacyPolicy">Política de privacidade</a></li>
                 </ul>
             </div>
-            <!-- Formulário de inscrição -->
             <div>
-                <h3 class="text-gray-300 mb-4">Informativo e novidades CONNEXA API</h3>
+                <h3 class="text-gray-300 mb-4" data-key="news">Informativo e novidades CONNEXA API</h3>
                 <div class="flex flex-col md:flex-row gap-2">
                     <input type="text" placeholder="Seu nome" class="bg-gray-800 p-3 rounded-md text-white focus:outline-none" />
                     <input type="email" placeholder="Email mais utilizado" class="bg-gray-800 p-3 rounded-md text-white focus:outline-none" />
                 </div>
-                <button class="mt-4 w-full md:w-auto bg-green-500 text-white px-6 py-3 rounded-md font-semibold hover:bg-green-600">Receber conteúdo</button>
+                <button class="mt-4 w-full md:w-auto bg-green-500 text-white px-6 py-3 rounded-md font-semibold hover:bg-green-600" data-key="receiveContent">Receber conteúdo</button>
             </div>
         </div>
-        <!-- Redes sociais (oculto) -->
         <div style="display: none;visibility: hidden;" class="mt-10 flex justify-between items-center flex-col md:flex-row">
             <div class="flex space-x-4">
                 <a href="#" class="text-white text-2xl hover:text-green-400">📘</a>
                 <a href="#" class="text-white text-2xl hover:text-green-400">📸</a>
                 <a href="#" class="text-white text-2xl hover:text-green-400">💬</a>
             </div>
-            <!-- Informações da empresa -->
             <div class="text-gray-400 text-center md:text-left mt-6 md:mt-0">
-                <p class="text-green-400 font-semibold">CONNEXA API é uma empresa</p>
+                <p class="text-green-400 font-semibold" data-key="companyInfo">CONNEXA API é uma empresa</p>
                 <p>Avenida Endereco, sala 123</p>
                 <p>Zona 123 - Maringá - PR, 12312-123</p>
             </div>
         </div>
     </footer>
-
-    <script>
-        $(document).ready(function() {
-            // Adicionando efeito de scroll suave aos links do cabeçalho
-            $('a[href^="#"]').on('click', function(event) {
-                var target = $(this.getAttribute('href'));
-                if (target.length) {
-                    event.preventDefault();
-                    $('html, body').stop().animate({
-                        scrollTop: target.offset().top
-                    }, 1000); // Tempo do efeito de rolagem
-                }
-            });
-        });
-
-        var scrollpos = window.scrollY;
-        var header = document.getElementById("header");
-        var navcontent = document.getElementById("nav-content");
-        var navaction = document.getElementById("navAction");
-        var toToggle = document.querySelectorAll(".toggleColour");
-        
-        document.addEventListener("scroll", function () {
-            // Apply classes for slide in bar
-            scrollpos = window.scrollY;
-
-            if (scrollpos > 10) {
-                header.classList.add("bg-white", "bg-opacity-75");
-                navaction.classList.remove("bg-white", "bg-opacity-75");
-                navaction.classList.add("gradient", "text-white");
-                
-                // Change toggleColour colors
-                toToggle.forEach(el => {
-                    el.classList.add("text-gray-800");
-                    el.classList.remove("text-white");
-                });
-                
-                header.classList.add("shadow");
-                navcontent.classList.remove("bg-gray-100");
-                navcontent.classList.add("bg-white");
-            } else {
-                header.classList.remove("bg-white");
-                navaction.classList.remove("gradient");
-                navaction.classList.add("bg-white", "text-gray-800");
-
-                // Change toggleColour colors
-                toToggle.forEach(el => {
-                    el.classList.add("text-white");
-                    el.classList.remove("text-gray-800");
-                });
-
-                header.classList.remove("shadow");
-                navcontent.classList.remove("bg-white");
-                navcontent.classList.add("bg-gray-100");
-            }
-        });
-        
-        var navMenuDiv = document.getElementById("nav-content");
-        var navMenu = document.getElementById("nav-toggle");
-
-        document.onclick = check;
-        function check(e) {
-            var target = (e && e.target) || (event && event.srcElement);
-
-            //Nav Menu
-            if (!checkParent(target, navMenuDiv)) {
-                // click NOT on the menu
-                if (checkParent(target, navMenu)) {
-                    // click on the link
-                    navMenuDiv.classList.toggle("hidden");
-                } else {
-                    navMenuDiv.classList.add("hidden");
-                }
-            }
-        }
-        
-        function checkParent(t, elm) {
-            while (t.parentNode) {
-                if (t === elm) return true;
-                t = t.parentNode;
-            }
-            return false;
-        }
-    </script>
 </body>
+<script src="/script/script.js" defer></script>
 </html>
